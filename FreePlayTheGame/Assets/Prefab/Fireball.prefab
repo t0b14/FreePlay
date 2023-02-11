@@ -127,4 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a99db175d650ad4e803decc41959c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smallFireball: {fileID: 0}
+  smallFireball: {fileID: 4771942633181272184, guid: e50c4c6cae35d60448c2a58a7471bc6b, type: 3}
