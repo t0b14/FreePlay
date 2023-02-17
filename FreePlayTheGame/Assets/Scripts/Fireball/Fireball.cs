@@ -11,6 +11,7 @@ public class Fireball : MonoBehaviour
     float sizeThold = 0.25f;
     bool chainReact = false;
     bool hasSplit = false;
+    bool original = true;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,11 @@ public class Fireball : MonoBehaviour
     void OnCollisionEnter(Collision collision){
         Explode();
     }
+    void FixedUpdate(){
+        if(original && hasSplit){
+            transform.localScale *= 0.98f;
+        }
+    }
 
     void Explode(){
         
@@ -34,6 +40,7 @@ public class Fireball : MonoBehaviour
             if(chainReact == false){
                 GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, transform.position, Quaternion.identity);
                 aSmallFireball.transform.localScale = transform.localScale * 0.9f;
+                aSmallFireball.GetComponent<Fireball>().SetOriginal(false);
                 aSmallFireball.GetComponent<Fireball>().SetChainReact(true);
             }
             hasSplit = true;
@@ -58,6 +65,10 @@ public class Fireball : MonoBehaviour
             ChainReaction();
         }
     }
+    public void SetOriginal(bool value){
+        original = value;
+    }
+
     public void SetChainReact(bool value){
         chainReact = value;
     }
