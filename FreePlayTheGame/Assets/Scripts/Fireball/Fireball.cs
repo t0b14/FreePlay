@@ -8,10 +8,11 @@ public class Fireball : MonoBehaviour
     float speedForward;
     Transform spawnPoint;
     [SerializeField] GameObject smallFireball;
-    float sizeThold = 0.25f;
+    float sizeThold = 0.25f; 
     bool chainReact = false;
     bool hasSplit = false;
     bool original = true;
+    float originalSize = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -48,10 +49,14 @@ public class Fireball : MonoBehaviour
         } 
     }
     
-    public void SetInitial(float sfor, float sup, Transform spoint){
+    // Only called for the original Fireball
+    public void SetInitial(float sfor, float sup, Transform spoint, Vector3 mySize){
         speedForward = sfor;
         speedUp = sup;
         spawnPoint = spoint;
+        transform.localScale = mySize;
+        sizeThold *= transform.localScale.x;
+        originalSize = transform.localScale.x;
     }
 
     void ChainReaction(){
@@ -61,7 +66,7 @@ public class Fireball : MonoBehaviour
         
         // add many more balls when small
         // the smaller the more likely to switch has Split
-        if(Random.Range(-1f,0.75f) > transform.localScale.x){
+        if(Random.Range(originalSize*-1f,originalSize*0.75f) > transform.localScale.x){
             ChainReaction();
         }
     }
