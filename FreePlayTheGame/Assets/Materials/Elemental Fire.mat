@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterMaterial
-  m_Shader: {fileID: 4800000, guid: 239bdb116219f3848bb31137dd6a9cdf, type: 3}
+  m_Name: Elemental Fire
+  m_Shader: {fileID: 4800000, guid: 7a36c4caf966a9640ac440ae286c67ac, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -26,12 +26,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Glossiness: 0.828
-    - _HeightPower: 0
-    - _Scale: 4.57
-    - _Speed: 2.68
+    - _Glossiness: 0.5
+    - _Metallic: 0
     m_Colors:
-    - _BaseColor: {r: 0.09104661, g: 0.25906047, b: 0.5849056, a: 1}
-    - _Color: {r: 0.33397114, g: 0.62689734, b: 0.745283, a: 1}
-    - _HighColor: {r: 0.27020293, g: 0.6048691, b: 0.8301887, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
