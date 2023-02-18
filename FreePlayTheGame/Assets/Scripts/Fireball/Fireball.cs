@@ -8,6 +8,7 @@ public class Fireball : MonoBehaviour
     float speedForward;
     Transform spawnPoint;
     [SerializeField] GameObject smallFireball;
+    [SerializeField] bool destroyable = true;
     float sizeThold = 0.25f; 
     bool chainReact = false;
     bool hasSplit = false;
@@ -68,7 +69,7 @@ public class Fireball : MonoBehaviour
             EmitFire();
         }
 
-        if(Time.time > instantiateTime + transform.localScale.x + 2f){
+        if(Time.time > instantiateTime + transform.localScale.x + 2f && destroyable){
             Destroy(gameObject);
         }
     }
@@ -104,15 +105,26 @@ public class Fireball : MonoBehaviour
             hasSplit = true;
         } 
     }
+
     void SpawnNewFireballFromOriginal(){
-                GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, transform.position, Quaternion.identity);
-                Fireball fb = aSmallFireball.GetComponent<Fireball>();
-                fb.SetConnectPoint(connectPoint);
-                aSmallFireball.transform.localScale = transform.localScale * 0.9f;
-                fb.SetOriginal(false);
-                fb.SetOriginalSize(originalSize);
-                fb.SetChainReact(true);
+        GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, transform.position, Quaternion.identity);
+        Fireball fb = aSmallFireball.GetComponent<Fireball>();
+        
+        aSmallFireball.transform.localScale = transform.localScale * 0.9f;
+        fb.SetOriginal(false);
+        fb.SetChainReact(true);
+
+        if(connectPoint != null){  
+            fb.SetConnectPoint(connectPoint);
+            fb.SetOriginalSize(originalSize);
+        }
     }
+
+    public void CastHellfireWithFireball(float newSize){
+        connectPoint = transform.position;
+        SetInitial(0f,0f, transform, new Vector3(newSize,newSize,newSize));
+        SpawnNewFireballFromOriginal();
+    }    
 
     void SetOriginalSize(float value){
         originalSize = value;
@@ -124,7 +136,6 @@ public class Fireball : MonoBehaviour
         speedForward = sfor * fatness;
         speedUp = sup * fatness;
         spawnPoint = spoint;
-        Debug.Log(mySize);
         transform.localScale = mySize;
         sizeThold *= mySize.x;
         originalSize = mySize.x;
@@ -149,29 +160,27 @@ public class Fireball : MonoBehaviour
         chainReact = value;
     }
     void SetRigidbody(){
-        Rigidbody rb = GetComponent<Rigidbody>();
-        rb.mass = transform.localScale.x;
-        rb.drag = transform.localScale.x * 0.05f;
-        rb.angularDrag = transform.localScale.x * 0.1f;
+        if(GetComponent<Rigidbody>()){
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.mass = transform.localScale.x;
+            rb.drag = transform.localScale.x * 0.05f;
+            rb.angularDrag = transform.localScale.x * 0.1f;
+        }
     }
 
     void SpawnNewFireball(){
-            Debug.Log(originalSize);
-            float offsetSize = originalSize;
-            Vector3 offset =  Random.insideUnitSphere * offsetSize;
-            offset.y *= 0.33f;
-            GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, connectPoint + offset, Quaternion.identity);
-            Fireball fb = aSmallFireball.GetComponent<Fireball>();
+        float offsetSize = originalSize;
+        Vector3 offset =  Random.insideUnitSphere * offsetSize;
+        offset.y *= 0.33f;
+        GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, connectPoint + offset, Quaternion.identity);
+        Fireball fb = aSmallFireball.GetComponent<Fireball>();
+        
+        aSmallFireball.transform.localScale = transform.localScale * 0.89f;
+        fb.SetChainReact(true);
+        if(connectPoint != null){
             fb.SetConnectPoint(connectPoint);
-            aSmallFireball.transform.localScale = transform.localScale * 0.89f;
-            fb.SetChainReact(true);
             fb.SetOriginalSize(originalSize);
-    
-            float forceSize = 1f;
-            float rV = Random.Range(-forceSize,forceSize);
-            //aSmallFireball.GetComponent<Rigidbody>().AddForce( new Vector3(rV,rV,rV) );
-
-            
+        }
     }
 
 }
