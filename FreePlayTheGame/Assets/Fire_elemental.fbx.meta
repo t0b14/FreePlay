@@ -4,26 +4,26 @@ ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
   - first:
-      74: 8357764664428463563
-    second: Fire Elemental|Action
+      74: -4373942708272520641
+    second: Fire Elemental.001|Action.001
   - first:
-      74: 4597205076058672155
-    second: Fire Elemental|Casting
+      74: -76510077174591363
+    second: Fire Elemental.001|Casting
   - first:
-      74: 1513367712998332731
-    second: Fire Elemental|Growing
+      74: 1409084214539884922
+    second: Fire Elemental.001|Growing
   - first:
-      74: -1766486003891218648
-    second: Fire Elemental|HellFire_Cast
+      74: 4408477032403294302
+    second: Fire Elemental.001|HellFire_Cast
   - first:
-      74: 7778864390885995887
-    second: Fire Elemental|HellFire_windup
+      74: -3175601949985989588
+    second: Fire Elemental.001|HellFire_windup
   - first:
-      74: 3832763214434280805
-    second: Fire Elemental|Idle
+      74: 8781961322312622724
+    second: Fire Elemental.001|Idle.001
   - first:
-      74: 2102466591081775497
-    second: Fire Elemental|Shooting
+      74: 7971463763683052067
+    second: Fire Elemental.001|Shooting
   externalObjects: {}
   materials:
     materialImportMode: 2
