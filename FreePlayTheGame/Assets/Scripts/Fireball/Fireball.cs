@@ -13,10 +13,13 @@ public class Fireball : MonoBehaviour
     bool hasSplit = false;
     bool original = true;
     float originalSize = 1f;
+    float instantiateTime;
 
     // Start is called before the first frame update
     void Start()
     {
+        SetRigidbody();
+        instantiateTime = Time.time;
         if(spawnPoint){
             transform.GetComponent<Rigidbody>().velocity = (spawnPoint.forward* speedForward + spawnPoint.up* speedUp);
             transform.position = spawnPoint.position;
@@ -29,10 +32,20 @@ public class Fireball : MonoBehaviour
     void OnCollisionEnter(Collision collision){
         Explode();
     }
+
     void FixedUpdate(){
         if(original && hasSplit){
-            transform.localScale *= 0.98f;
+            Shrink();
+            transform.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(transform.GetComponent<Rigidbody>().velocity, Mathf.Max(speedForward, speedUp) / 1.5f);
         }
+
+        if(Time.time > instantiateTime + 2f){
+            Destroy(gameObject);
+        }
+    }
+
+    void Shrink(){
+        transform.localScale *= 0.98f;
     }
 
     void Explode(){
@@ -51,12 +64,13 @@ public class Fireball : MonoBehaviour
     
     // Only called for the original Fireball
     public void SetInitial(float sfor, float sup, Transform spoint, Vector3 mySize){
-        speedForward = sfor;
-        speedUp = sup;
+        float fatness = Mathf.Log(1f + mySize.x);
+        speedForward = sfor * fatness;
+        speedUp = sup * fatness;
         spawnPoint = spoint;
         transform.localScale = mySize;
-        sizeThold *= transform.localScale.x;
-        originalSize = transform.localScale.x;
+        sizeThold *= mySize.x;
+        originalSize = mySize.x;
     }
 
     void ChainReaction(){
@@ -66,7 +80,7 @@ public class Fireball : MonoBehaviour
         
         // add many more balls when small
         // the smaller the more likely to switch has Split
-        if(Random.Range(originalSize*-1f,originalSize*0.75f) > transform.localScale.x){
+        if(Random.Range(originalSize*-0.9f,originalSize*0.75f) > transform.localScale.x){
             ChainReaction();
         }
     }
@@ -77,16 +91,24 @@ public class Fireball : MonoBehaviour
     public void SetChainReact(bool value){
         chainReact = value;
     }
+    void SetRigidbody(){
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.mass = transform.localScale.x;
+        rb.drag = transform.localScale.x * 0.05f;
+        rb.angularDrag = transform.localScale.x * 0.1f;
+    }
 
     void SpawnNewFireball(){
-            float offsetSize = 0.5f;
-            Vector3 offset = new Vector3(Random.Range(-offsetSize, offsetSize), 0f, Random.Range(-offsetSize, offsetSize));
+            float offsetSize = 2f;
+            Vector3 offset =  Random.insideUnitSphere * offsetSize + Random.onUnitSphere * 0.1f;
+            offset.y *= 0.33f;
             GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, transform.position + offset, Quaternion.identity);
-            aSmallFireball.transform.localScale = transform.localScale * 0.9f;
+            aSmallFireball.transform.localScale = transform.localScale * 0.91f;
             aSmallFireball.GetComponent<Fireball>().SetChainReact(true);
+    
             float rV = Random.Range(-offsetSize, offsetSize);
-            aSmallFireball.GetComponent<Rigidbody>().velocity = new Vector3(rV,rV,rV);
+            aSmallFireball.GetComponent<Rigidbody>().AddForce( new Vector3(rV,rV,rV) );
 
-            Destroy(gameObject, Random.Range(0.5f, 2f));
+            
     }
 }
