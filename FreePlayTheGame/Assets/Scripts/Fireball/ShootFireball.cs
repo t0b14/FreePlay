@@ -20,7 +20,9 @@ public class ShootFireball : MonoBehaviour
             if(fireTime > 0f){
                 fireTime = Time.time - fireTime;
                 float sizeMultiplier = Mathf.Log(fireTime+2f,2f);
+                speedForwardFireball += sizeMultiplier;
                 ShootFireballs(sizeMultiplier);
+                speedForwardFireball -= sizeMultiplier;
             }
         }
     }
