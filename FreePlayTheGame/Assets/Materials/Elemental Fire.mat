@@ -26,8 +26,25 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BaseAmount: 0.866
+    - _EffectAlpha: 0.578
+    - _EffectScale: 11.1
+    - _EffectSize: 0.094
+    - _EffectSpeed: 6.73
     - _Glossiness: 0.5
+    - _Height: 0.044
+    - _HighAmount: 0.496
     - _Metallic: 0
+    - _Noise: 5.66
+    - _Scale: 10.5
+    - _Sharpness: 0.469
+    - _Smoothness: 4.6
+    - _Smoothness2: 0
+    - _Speed: 0.41
+    - _Tessellation: 242
     m_Colors:
+    - _BaseColor: {r: 0.254717, g: 0.03244037, b: 0.03244037, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EffectColor: {r: 0.6698113, g: 0.53395325, b: 0.53395325, a: 0.21960784}
+    - _HighColor: {r: 0.74024415, g: 0.8490566, b: 0.108134575, a: 1}
   m_BuildTextureStacks: []
