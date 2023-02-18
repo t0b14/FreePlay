@@ -1113,11 +1113,8 @@ Transform:
   m_Children:
   - {fileID: 220805391}
   - {fileID: 243190036}
-<<<<<<< HEAD
   - {fileID: 1205922675}
-=======
   - {fileID: 1681006459}
->>>>>>> 78672ecbc490a9c99d6aa445f7cc379da9846960
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
