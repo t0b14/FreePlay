@@ -59,3 +59,9 @@ sysinfo.txt
 crashlytics-build.properties
 
 FreePlayTheGame/.vscode/settings.json
+FreePlayTheGame/ProjectSettings/ProjectSettings.asset
+FreePlayTheGame/ProjectSettings/ProjectVersion.txt
+FreePlayTheGame/.vsconfig
+FreePlayTheGame/Packages/packages-lock.json
+FreePlayTheGame/ProjectSettings/ProjectSettings.asset
+FreePlayTheGame/ProjectSettings/ProjectVersion.txt

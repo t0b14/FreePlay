@@ -7,6 +7,7 @@ Shader "Custom/WaterShader"
         _HighColor ("Hightlight Color", Color) = (1,1,1,1)
         _Scale ("Scale", Range(0, 10)) = 1
         _Speed ("Speed", Range(0, 10)) = 1
+        _HeightPower ("Height", Range(0, 10)) = 0
     }
     SubShader
     {
@@ -23,13 +24,14 @@ Shader "Custom/WaterShader"
 
         struct Input
         {
-            float2 uv_MainTex : TEXCOORD0;
             float4 pos : SV_POSITION;
+            float2 uv_MainTex : TEXCOORD0;
         };
 
         sampler2D _MainTex;
         fixed4 _BaseColor;
         fixed4 _HighColor;
+        float _HeightPower;
         float _Scale;
         float _Speed;
 
@@ -41,7 +43,7 @@ Shader "Custom/WaterShader"
         void vert(inout appdata_full v, out Input o)
         {
             UNITY_INITIALIZE_OUTPUT(Input, o);
-            o.pos = v.vertex;
+            o.pos = v.vertex + _HeightPower * float4(v.normal, 1);
         }
 
         void surf (Input i, inout SurfaceOutput o)
@@ -54,7 +56,8 @@ Shader "Custom/WaterShader"
             Unity_GradientNoise_float(i.pos.xz - _Time.x * _Speed, _Scale, noise_down.y);
             Unity_GradientNoise_float(i.pos.xy - _Time.x * _Speed, _Scale, noise_down.z);
 
-            fixed4 c = lerp(_BaseColor, _HighColor, prod(noise_up) + prod(noise_down));
+            fixed4 c = tex2D(_MainTex, i.uv_MainTex);
+            c *= lerp(_BaseColor, _HighColor, prod(noise_up) + prod(noise_down));
             o.Albedo = c.rgb;
             o.Gloss = 0.8;
             o.Alpha = c.a;
