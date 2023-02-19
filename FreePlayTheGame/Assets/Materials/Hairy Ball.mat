@@ -26,7 +26,7 @@ Material:
     - _GrassHeight: 0.07
     - _GrassScale: 0.063
     - _RandPos: 0.016
-    - _TessellationUniform: 10.56
+    - _TessellationUniform: 3.12
     - _WindScale: 2.19
     - _WindSpeed: 0.74
     - _WindStrength: 0.269

@@ -28,9 +28,9 @@ Material:
     m_Floats:
     - _BaseAmount: 0.866
     - _EffectAlpha: 0.434
-    - _EffectScale: 9.7
-    - _EffectSize: 0.042
-    - _EffectSpeed: 4.65
+    - _EffectScale: 6.2
+    - _EffectSize: 0.088
+    - _EffectSpeed: 0.39
     - _Glossiness: 0.5
     - _Height: 0.032
     - _HighAmount: 0.496
