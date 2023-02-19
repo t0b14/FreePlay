@@ -9,7 +9,8 @@ public class Fireball : MonoBehaviour
     Transform spawnPoint;
     [SerializeField] GameObject smallFireball;
     [SerializeField] bool destroyable = true;
-    float sizeThold = 0.25f; 
+    GameObject fireballHolder;
+    float sizeThold = 0.6f; 
     bool chainReact = false;
     bool hasSplit = false;
     bool splitAgain = false;
@@ -17,11 +18,12 @@ public class Fireball : MonoBehaviour
     float originalSize;
     float instantiateTime;
     Vector3 connectPoint;
-    float spawnInterval = 0.25f;
+    float spawnInterval = 0.45f;
     float connectionTime;
     float nextEmitTime = 0f;
     float bigShrinkFactor = 0.8f;
     float continousShrink = 0.98f;
+    GameObject parent;
 
     void Start()
     {
@@ -32,7 +34,7 @@ public class Fireball : MonoBehaviour
                         (spawnPoint.forward * speedForward + spawnPoint.up* speedUp);
             transform.position = spawnPoint.position;
         }
-        if(chainReact == true){
+        if(chainReact == true && !original){
             ChainReaction();
         }
     }
@@ -47,7 +49,6 @@ public class Fireball : MonoBehaviour
             connectionTime = Time.time;
             connectPoint = transform.position;
             nextEmitTime = connectionTime + spawnInterval;
-
         }
     }
 
@@ -62,16 +63,16 @@ public class Fireball : MonoBehaviour
     void FixedUpdate(){
         if(original && hasSplit){
             Shrink();
-
         }
 
         if(original && nextEmitTime > 0f){
             EmitFire();
         }
 
-        if(Time.time > instantiateTime + transform.localScale.x + 2f && destroyable){
+        if(Time.time > instantiateTime + transform.localScale.x + 3f && destroyable){
             Destroy(gameObject);
         }
+
     }
 
     void EmitFire(){
@@ -79,7 +80,6 @@ public class Fireball : MonoBehaviour
             nextEmitTime = Time.time + spawnInterval;
             splitAgain = true;
             connectPoint = transform.position;
-            
             Explode();
             splitAgain = false;
             continousShrink -= 0.01f;
@@ -110,13 +110,14 @@ public class Fireball : MonoBehaviour
         GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, transform.position, Quaternion.identity);
         Fireball fb = aSmallFireball.GetComponent<Fireball>();
         
-        aSmallFireball.transform.localScale = transform.localScale * 0.9f;
+        aSmallFireball.transform.localScale = transform.localScale;
         fb.SetOriginal(false);
         fb.SetChainReact(true);
-
+        fb.SetParent(parent);
+        fb.SetHolder(fireballHolder);
         if(connectPoint != null){  
             fb.SetConnectPoint(connectPoint);
-            fb.SetOriginalSize(originalSize);
+            fb.SetOriginalSize(transform.localScale.x);
         }
     }
 
@@ -139,6 +140,7 @@ public class Fireball : MonoBehaviour
         transform.localScale = mySize;
         sizeThold *= mySize.x;
         originalSize = mySize.x;
+        parent = gameObject;
     }
 
     void ChainReaction(){
@@ -147,11 +149,13 @@ public class Fireball : MonoBehaviour
         }
         
         // add many more balls when small
-        // the smaller the more likely to switch has Split
-        if(Random.Range(originalSize*-1f,originalSize*0.75f) > transform.localScale.x){
+        // the smaller the more likely to split again
+        //Debug.Log(transform.localScale.x / originalSize);
+        if(Random.Range(0.2f, 1.05f) < transform.localScale.x / originalSize){
             ChainReaction();
         }
     }
+
     public void SetOriginal(bool value){
         original = value;
     }
@@ -159,6 +163,12 @@ public class Fireball : MonoBehaviour
     public void SetChainReact(bool value){
         chainReact = value;
     }
+
+    public void SetHolder(GameObject holder){
+        fireballHolder = holder;
+        transform.SetParent(holder.transform);
+    }
+
     void SetRigidbody(){
         if(GetComponent<Rigidbody>()){
             Rigidbody rb = GetComponent<Rigidbody>();
@@ -168,19 +178,26 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    // called by non originals
     void SpawnNewFireball(){
         float offsetSize = originalSize;
         Vector3 offset =  Random.insideUnitSphere * offsetSize;
         offset.y *= 0.33f;
         GameObject aSmallFireball = (GameObject)Instantiate(smallFireball, connectPoint + offset, Quaternion.identity);
         Fireball fb = aSmallFireball.GetComponent<Fireball>();
-        
-        aSmallFireball.transform.localScale = transform.localScale * 0.89f;
+        fb.SetParent(parent);
+        fb.SetHolder(fireballHolder);
+
+        aSmallFireball.transform.localScale = transform.localScale * 0.9f;
         fb.SetChainReact(true);
         if(connectPoint != null){
             fb.SetConnectPoint(connectPoint);
+            
             fb.SetOriginalSize(originalSize);
         }
     }
 
+    public void SetParent(GameObject newParent){
+        parent = newParent;
+    }
 }

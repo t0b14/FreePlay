@@ -10,6 +10,8 @@ public class ShootFireball : MonoBehaviour
     [SerializeField] Transform spawnPoint;
     [SerializeField] float speedUpFireball;
     [SerializeField] float speedForwardFireball;
+    [SerializeField] GameObject fireballHolder;
+    
     void Update(){
         if (Input.GetKeyDown("space"))
         {
@@ -31,5 +33,6 @@ public class ShootFireball : MonoBehaviour
         Vector3 eyeDisplacement = new Vector3(0f,10f,0f);
         GameObject aFireball= (GameObject)Instantiate(fireball, spawnPoint.position + eyeDisplacement, Quaternion.identity, transform);
         aFireball.GetComponent<Fireball>().SetInitial(speedForwardFireball, speedUpFireball, spawnPoint, sizeMultiplier*ballSize);
+        aFireball.GetComponent<Fireball>().SetHolder(fireballHolder);
     }
 }
