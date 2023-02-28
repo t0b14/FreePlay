@@ -47,7 +47,6 @@ public class PillarCluster : MonoBehaviour
     }
 
     void DieGracefully(){
-        Debug.Log("i want to die");
         Destroy(gameObject,deathTime);
         StartCoroutine(Fall());
     }
