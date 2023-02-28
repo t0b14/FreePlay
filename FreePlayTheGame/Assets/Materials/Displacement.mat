@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hairy Ball
-  m_Shader: {fileID: 4800000, guid: 5c557a920f89ea94ba4b4796d8250f13, type: 3}
+  m_Name: Displacement
+  m_Shader: {fileID: 4800000, guid: 528ffb468629337448d2a323333d7a65, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -19,19 +19,19 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _GrassBend: 0.1
-    - _GrassHeight: 0.07
-    - _GrassScale: 0.063
-    - _RandPos: 0.016
-    - _TessellationUniform: 3.12
-    - _WindScale: 2.19
-    - _WindSpeed: 0.74
-    - _WindStrength: 0.269
+    - _Height: 0.032
+    - _Lower: 0
+    - _Scale: 6.2
+    - _Sharpness: 6.04
+    - _TessellationUniform: 256
+    - _Upper: 0.806
     m_Colors:
-    - _GrassColor: {r: 0.31211773, g: 0, b: 0.4339623, a: 1}
-    - _GroundColor: {r: 0.12415449, g: 0.1307072, b: 0.16981131, a: 1}
-    - _HighColor: {r: 0.32631207, g: 0.16874333, b: 0.4528302, a: 1}
+    - _Center: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
