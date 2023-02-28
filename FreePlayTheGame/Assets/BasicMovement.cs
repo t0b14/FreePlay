@@ -8,6 +8,7 @@ public class BasicMovement : MonoBehaviour
     public float sensY;
 
     public Transform orientation;
+    [SerializeField] Transform cam;
 
     float xRotation;
     float yRotation;
@@ -16,23 +17,29 @@ public class BasicMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        if (Input.GetMouseButton(0)){
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
-        yRotation += mouseX;
+            yRotation += mouseX;
 
-        xRotation -= mouseY;
+            xRotation -= mouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -90f,90f);
+            xRotation = Mathf.Clamp(xRotation, -90f,90f);
+            //Debug.Log(xRotation);
+            //Debug.Log("y " + yRotation.ToString());
+            orientation.rotation = Quaternion.Euler(xRotation,0, 0);
+            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
 
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+
+        }
+
     }
 }

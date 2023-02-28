@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//deprecated
+/*
 public class CastHellfire : MonoBehaviour
 {
     [SerializeField] Fireball fb;
@@ -23,3 +24,4 @@ public class CastHellfire : MonoBehaviour
         }
     }
 }
+*/
